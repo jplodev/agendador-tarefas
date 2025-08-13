@@ -24,9 +24,9 @@ public class SecurityConfig {
 
     // Construtor para injeção de dependências de JwtUtil e UserDetailsService
     @Autowired
-    public SecurityConfig(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+    public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = (UserDetailsServiceImpl) userDetailsService;
+        this.userDetailsService = userDetailsService;
     }
 
     // Configuração do filtro de segurança
