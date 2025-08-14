@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -26,5 +27,14 @@ public class TarefasService {
         dto.setEmailUsuario(email);
         TarefasEntity tarefasEntity = tarefaConverter.paraTarefasEntity(dto);
         return tarefaConverter.paraTarefasDTO(tarefasRepository.save(tarefasEntity));
+    }
+
+    public List<TarefasDTO> buscaTarefasAgendadasPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal){
+        return tarefaConverter.paraListaTarefasDTO(tarefasRepository.findByDataEventoBetween(dataInicial, dataFinal));
+    }
+
+    public List<TarefasDTO> buscaTarefasPorEmail(String token){
+        String email = jwtUtil.extrairEmailToken(token.substring(7));
+        return tarefaConverter.paraListaTarefasDTO(tarefasRepository.findByEmailUsuario(email));
     }
 }
