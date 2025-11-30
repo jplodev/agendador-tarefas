@@ -23,5 +23,5 @@ public class TarefasEntity {
     private LocalDateTime dataCriacao;
     private LocalDateTime dataEvento;
     private LocalDateTime dataAlteracao;
-    private StatusNotificacaoEnum statusNOtificacaoEnum;
+    private StatusNotificacaoEnum statusNotificacaoEnum;
 }

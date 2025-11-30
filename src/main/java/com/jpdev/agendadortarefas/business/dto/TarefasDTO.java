@@ -23,5 +23,5 @@ public class TarefasDTO {
     private LocalDateTime dataEvento;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyy HH:mm:ss")
     private LocalDateTime dataAlteracao;
-    private StatusNotificacaoEnum statusNOtificacaoEnum;
+    private StatusNotificacaoEnum statusNotificacaoEnum;
 }
