@@ -27,13 +27,14 @@ public class TarefasService {
         String email = jwtUtil.extractUsername(token.substring(7));
         dto.setEmailUsuario(email);
         dto.setDataCriacao(LocalDateTime.now());
-        dto.setStatusNOtificacaoEnum(StatusNotificacaoEnum.PENDENTE);
+        dto.setStatusNotificacaoEnum(StatusNotificacaoEnum.PENDENTE);
         TarefasEntity tarefasEntity = converter.paraTerefaEntity(dto);
         return converter.paraTarefaDTO(tarefasRepository.save(tarefasEntity));
     }
 
     public List<TarefasDTO> buscaTarefasAgendadasPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal){
-        return converter.paraListaTarefasDTO(tarefasRepository.findByDataEventoBetween(dataInicial, dataFinal));
+        return converter.paraListaTarefasDTO(tarefasRepository.findByDataEventoBetweenAndStatusNotificacaoEnum(
+                dataInicial, dataFinal, StatusNotificacaoEnum.PENDENTE));
     }
 
     public List<TarefasDTO> buscaTarefaPorEmail(String token){
@@ -53,7 +54,7 @@ public class TarefasService {
         try{
             TarefasEntity entity = tarefasRepository.findById(id).orElseThrow(
                     () -> new ResourceNotFoundException("tarefa não encontrada " + id) );
-            entity.setStatusNOtificacaoEnum(status);
+            entity.setStatusNotificacaoEnum(status);
             return converter.paraTarefaDTO(tarefasRepository.save(entity));
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("Erro ao alterar status da notificação " + e.getCause());
