@@ -36,4 +36,10 @@ public class TarefasController {
         return ResponseEntity.ok(tarefasService.buscaTarefasPorEmail(token));
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deletaTarefasPorId(@RequestParam("id") String id){
+        tarefasService.deletaTarefaPorId(id);
+        return ResponseEntity.ok().build();
+    }
+
 }

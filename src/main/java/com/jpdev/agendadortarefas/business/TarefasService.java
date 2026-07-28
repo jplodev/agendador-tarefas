@@ -4,6 +4,7 @@ import com.jpdev.agendadortarefas.business.dto.TarefasDTO;
 import com.jpdev.agendadortarefas.business.mapper.TarefasConverter;
 import com.jpdev.agendadortarefas.infrastructure.entity.TarefasEntity;
 import com.jpdev.agendadortarefas.infrastructure.enums.StatusNotificacaoEnum;
+import com.jpdev.agendadortarefas.infrastructure.exceptions.ResourceNotFoundException;
 import com.jpdev.agendadortarefas.infrastructure.repository.TarefasRepository;
 import com.jpdev.agendadortarefas.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,14 @@ public class TarefasService {
         String email = jwtUtil.extractUsername(token.substring(7));
         List<TarefasEntity> listaTarefas = tarefasRepository.findByEmailUsuario(email);
         return tarefasConverter.paraListaTarefasDTO(listaTarefas);
+    }
+
+    public void deletaTarefaPorId(String id){
+        try{
+            tarefasRepository.deleteById(id);
+        }catch (ResourceNotFoundException e){
+            throw new ResourceNotFoundException("Id não encontrado ", e.getCause());
+        }
     }
 
 }
